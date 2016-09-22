@@ -66,13 +66,14 @@ command [arguments]: input
 Command      | Arguments       | Use
 ------------ | --------------- | -----------
 `simplify`   | none            | Simplifies equation without moving variables from their side
-`solve`      | `for x [and y]` | Tries to isolate the variables provided. Returns a functor 
+`solve`      | `for x [and y]` | Tries to isolate the variables provided. Returns a functor
 `substitute` | none            | Allows functions to remain unevaluated. ex. `f(7)` will be `(7) + 2` instead of `9`.
-`interpolate`| <code>constant &#124; linear &#124; cosine &#124; spline</code> | Allows tables to be evaluated with interpolation. 
+`interpolate`| <code>constant &#124; linear &#124; cosine &#124; spline</code> | Allows tables to be evaluated with interpolation.
 `root`       | none            | Takes the root of a quadratic or a cubic functor
 `limit`      | none            | Finds the domain limits of a single variable functor
-`derive`     | `[partial] 1st | 2nd...`  | Calculates the n-th [partial] derivative of the provided expression
-`integral`    | <code>definite &#124; indefinite</code>   | Calculates the definite or indefinite integral
+`differentiate`     | `[partial] 1st | 2nd...`  | Calculates the n-th [partial] derivative of the provided expression
+`integrate`    | <code>definite &#124; indefinite</code>   | Calculates the indefinite integral
+`integrate_definite`| <code>x,{a,b}</code> | Returns the definite integral of the given function for x in the range a to b
 
 The command is optional and assignments are allowed as part of the input.
 
