@@ -72,7 +72,7 @@ Command      | Arguments       | Use
 `root`       | none            | Takes the root of a quadratic or a cubic functor
 `limit`      | none            | Finds the domain limits of a single variable functor
 `differentiate`     | `[partial] 1st | 2nd...`  | Calculates the n-th [partial] derivative of the provided expression
-`integrate`    | <code>definite &#124; indefinite</code>   | Calculates the indefinite integral
+`integrate`    | none   | Calculates the indefinite integral
 `integrate_definite`| <code>x,{a,b}</code> | Returns the definite integral of the given function for x in the range a to b
 
 The command is optional and assignments are allowed as part of the input.
