@@ -1,4 +1,4 @@
-===========Simplifications============
+# Simplifications
 
 This document is a list of mathematical features that will eventually be integrated into the C++ CAS project.
 
