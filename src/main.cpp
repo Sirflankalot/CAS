@@ -16,7 +16,7 @@ int main(int argc, char * argv[])
 		CAS::separate_input(CAS::get_input(std::cin), command, expression);
 		CAS::handle_inputs(CAS::make_command(command), expression);
 
-		//if the handle_inputs command runs into the quit command it will set bool quit to true and execution will end
+		//if the handle_inputs function runs into the quit command it will set bool quit to true and execution will end
 		if (quit) 
 		{
 		    break;
