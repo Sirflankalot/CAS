@@ -95,6 +95,7 @@ bin:
 
 clean:
 	@rm -rf bin/*
+	@rm -rf obj/*
 	@rm -f $(PROGNAME)
 
 $(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir))))
