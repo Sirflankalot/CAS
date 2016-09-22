@@ -1,5 +1,6 @@
 CC        := gcc
 CXX       := g++
+FORMAT    := clang-format
 
 WARNINGS  := -Wall -Wextra 
 FULLWARN  := -Wall -Wextra -Wpedantic -pedantic-errors
@@ -16,6 +17,10 @@ BUILD_DIR := obj $(addprefix obj/,$(MODULES))
 SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJ       := $(patsubst src/%.cpp,obj/%.o,$(SRC))
 #INCLUDES  := $(addprefix -I,$(SRC_DIR))
+
+ALLFILES  = $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
+ALLFILES += $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.hpp))
+ALLFILES += $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.tpp))
 
 PROGNAME := cas
 
@@ -42,6 +47,15 @@ sanitize: checkdirs $(PROGNAME)
 asm: DEBUG = -S -masm=intel
 asm: checkdirs $(OBJ)
 
+format: $(addsuffix -format, $(ALLFILES))
+
+define make-format
+$1:
+	@echo $(FORMAT) $$(patsubst %-format, %, $$@)
+	@$(FORMAT) -style=file -i $$(patsubst %-format, %, $$@)
+endef
+
+$(foreach file,$(ALLFILES),$(eval $(call make-format,$(addsuffix -format, $(file)))))
 
 vpath %.cpp $(SRC_DIR)
 
