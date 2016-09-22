@@ -17,8 +17,9 @@ int main(int argc, char * argv[])
 		CAS::handle_inputs(CAS::make_command(command), expression);
 
 		//if the handle_inputs command runs into the quit command it will set bool quit to true and execution will end
-		if (quit) {
-			break;
+		if (quit) 
+		{
+		    break;
 		}
 	}
 
