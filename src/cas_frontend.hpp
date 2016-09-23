@@ -1,7 +1,6 @@
-#include <string>
+#pragma once
 
-#ifndef CAS_FRONTEND
-#define CAS_FRONTEND
+#include <string>
 
 namespace CAS
 {
@@ -48,5 +47,3 @@ namespace CAS
 	// expression
 	void handle_inputs(const CAS::Command_t&, const std::string&);
 }
-
-#endif // CAS_FRONTEND
