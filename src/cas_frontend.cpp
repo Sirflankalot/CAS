@@ -30,6 +30,8 @@ void CAS::separate_input(const std::string& input, std::string& command, std::st
 		}
 	}
 
+	expression.reserve(input.size() - i);
+
 	// skips the first space and adds the remaining characters in input to the string expression
 	// which holds the mathematical expression
 	// to be solved
