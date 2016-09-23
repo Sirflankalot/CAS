@@ -1,7 +1,9 @@
 #include "cas_frontend.hpp"
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <unordered_map>
 
 std::string CAS::get_input(std::istream& input_stream)
 {
@@ -12,53 +14,92 @@ std::string CAS::get_input(std::istream& input_stream)
 
 CAS::User_Input_t CAS::separate_input(const std::string& input)
 {
-	CAS::User_Input_t ret;
+	static const std::unordered_map<std::string, CAS::Command_t> command_map{
+	    //
+	    {"simplify", CAS::Command_t::SIMPLIFY},
+	    {"solve", CAS::Command_t::SOLVE},
+	    {"substitute", CAS::Command_t::SUBSTITUTE},
+	    {"interpolate", CAS::Command_t::INTERPOLATE},
+	    {"root", CAS::Command_t::ROOT},
+	    {"limit", CAS::Command_t::LIMIT},
+	    {"differentiate", CAS::Command_t::DIFFERENTIATE},
+	    {"integrate", CAS::Command_t::INTEGRATE},
+	    {"integrate_definite", CAS::Command_t::INTEGRATE_DEFINITE},
+	    //
+	};
+
+	CAS::Command_t command = CAS::Command_t::NONE;
+	std::string args;
+	std::string expression;
+
+	bool has_command = false;
+	bool has_args    = true;
 
 	size_t i = 0; // current character index in the input string
 
-	// sets the value of the command string variable to the first word in the input string
-	for (i = 0; i < input.size(); ++i)
+	// Checks if the string has the character needed for a command
+	auto colon_it = std::find(input.begin(), input.end(), ':');
+	has_command   = colon_it != input.end();
+
+	// If there is a colon, parse the command
+	if (has_command)
 	{
-		if (input[i] != ' ')
+		// Reads the first word terminated by a space or : as the command
+		// Finding a colon means there are no arguments
+		std::string cmd_str;
+		for (; i < input.size(); ++i)
 		{
-			ret.command.push_back(input[i]);
+			if (input[i] == ' ')
+			{
+				i += 1;
+				break;
+			}
+			else if (input[i] == ':')
+			{
+				has_args = false;
+				break;
+			}
+			cmd_str.push_back(input[i]);
 		}
 
-		// stops adding letters to command after reaching the first space in input
-		else
+		// If command is found in map, set the command
+		auto cmd_it = command_map.find(cmd_str);
+		if (cmd_it == command_map.end())
 		{
-			i = i + 1;
-			break;
+			throw std::runtime_error("Command not found");
+		}
+		command = (*cmd_it).second;
+
+		// Add arguments if applicable
+		if (has_args)
+		{
+			for (; i < input.size(); ++i)
+			{
+				if (input[i] == ':')
+				{
+					i += 1;
+					break;
+				}
+				args.push_back(input[i]);
+			}
 		}
 	}
 
-	// Resereve the space needed for the expression
-	ret.expression.reserve(input.size() - i);
+	// Reserve the space needed for the expression
+	expression.reserve(input.size() - i);
 
 	// skips the first space and adds the remaining characters in input to the string expression
 	// which holds the mathematical expression
 	// to be solved
 	for (; i < input.size(); i++)
 	{
-		ret.expression.push_back(input[i]);
+		expression.push_back(input[i]);
 	}
 
-	return ret;
+	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression)};
 }
 
-CAS::command CAS::make_command(const std::string& raw_command)
-{
-	// use if/else if to convert the std::string raw_command to its CAS::commands counterpart for
-	// use with CAS::handle_inputs
-	/* prototype:
-
-	if(raw_command == "example") return CAS::commands::example;
-	else if(raw_command == "other") return CAS::commands::other;
-	else return CAS::commands::invalid_command;
-	*/
-}
-
-void CAS::handle_inputs(const CAS::command& command, const std::string& argument)
+void CAS::handle_inputs(const CAS::Command_t& command, const std::string& argument)
 {
 	(void) argument;
 

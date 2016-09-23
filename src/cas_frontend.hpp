@@ -5,10 +5,28 @@
 
 namespace CAS
 {
+	/*Provides an enum with all legal commands in the C++ CAS language and a function to convert the
+	std::string command into its
+	commands equivalent. This allows for switch statements to easily be used in the function
+	handle_inputs.*/
+	enum class Command_t
+	{
+		NONE = 0,
+		SIMPLIFY,
+		SOLVE,
+		SUBSTITUTE,
+		INTERPOLATE,
+		ROOT,
+		LIMIT,
+		DIFFERENTIATE,
+		INTEGRATE,
+		INTEGRATE_DEFINITE
+	};
+
 	// A simple struct to return user input from
 	struct User_Input_t
 	{
-		std::string command;
+		CAS::Command_t command;
 		std::string args;
 		std::string expression;
 	};
@@ -25,21 +43,10 @@ namespace CAS
 	// separates the first string into a command and math expression
 	User_Input_t separate_input(const std::string&);
 
-	/*Provides an enum with all legal commands in the C++ CAS language and a function to convert the
-	std::string command into its
-	commands equivalent. This allows for switch statements to easily be used in the function
-	handle_inputs.*/
-	enum command
-	{
-		// legal commands in the C++ CAS language will be listed here and are used by the
-		// handle_inputs function
-	};
-	CAS::command make_command(const std::string&);
-
 	// handle_input: const std::string const std::string -> void
 	// take the appropriate action based on the command passed in and using the given math
 	// expression
-	void handle_inputs(const CAS::command&, const std::string&);
+	void handle_inputs(const CAS::Command_t&, const std::string&);
 }
 
 #endif // CAS_FRONTEND
