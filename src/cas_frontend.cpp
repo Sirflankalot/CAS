@@ -5,13 +5,6 @@
 #include <iostream>
 #include <unordered_map>
 
-std::string CAS::get_input(std::istream& input_stream)
-{
-	std::string input_line;
-	std::getline(input_stream, input_line, '\n');
-	return input_line;
-}
-
 CAS::User_Input_t CAS::separate_input(const std::string& input)
 {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
