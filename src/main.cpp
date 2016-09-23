@@ -5,15 +5,18 @@
 
 int main(int argc, char* argv[])
 {
-	std::string command(""), expression("");
 	bool quit = false;
 
 	std::cout << "C++ CAS\nversion 0.0\n";
+
 	while (true) // primary I/O loop
 	{
 		std::cout << "> ";
-		CAS::separate_input(CAS::get_input(std::cin), command, expression);
-		CAS::handle_inputs(CAS::make_command(command), expression);
+
+		std::string raw_input = CAS::get_input(std::cin);
+		auto broken_down      = CAS::separate_input(raw_input);
+		auto command          = CAS::make_command(broken_down.command);
+		CAS::handle_inputs(command, broken_down.expression);
 
 		// if the handle_inputs function runs into the quit command it will set bool quit to true
 		// and execution will end

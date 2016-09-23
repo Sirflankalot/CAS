@@ -10,8 +10,10 @@ std::string CAS::get_input(std::istream& input_stream)
 	return input_line;
 }
 
-void CAS::separate_input(const std::string& input, std::string& command, std::string& expression)
+CAS::User_Input_t CAS::separate_input(const std::string& input)
 {
+	CAS::User_Input_t ret;
+
 	size_t i = 0; // current character index in the input string
 
 	// sets the value of the command string variable to the first word in the input string
@@ -19,7 +21,7 @@ void CAS::separate_input(const std::string& input, std::string& command, std::st
 	{
 		if (input[i] != ' ')
 		{
-			command.push_back(input[i]);
+			ret.command.push_back(input[i]);
 		}
 
 		// stops adding letters to command after reaching the first space in input
@@ -30,15 +32,18 @@ void CAS::separate_input(const std::string& input, std::string& command, std::st
 		}
 	}
 
-	expression.reserve(input.size() - i);
+	// Resereve the space needed for the expression
+	ret.expression.reserve(input.size() - i);
 
 	// skips the first space and adds the remaining characters in input to the string expression
 	// which holds the mathematical expression
 	// to be solved
 	for (; i < input.size(); i++)
 	{
-		expression.push_back(input[i]);
+		ret.expression.push_back(input[i]);
 	}
+
+	return ret;
 }
 
 CAS::command CAS::make_command(const std::string& raw_command)
@@ -55,6 +60,8 @@ CAS::command CAS::make_command(const std::string& raw_command)
 
 void CAS::handle_inputs(const CAS::command& command, const std::string& argument)
 {
+	(void) argument;
+
 	switch (command)
 	{
 		default:
