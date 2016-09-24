@@ -2,18 +2,32 @@
 
 #include <cstdlib>
 
+// clang-format off
+#ifndef DEBUG
+	#ifdef _MSC_VER
+		#define ALWAYS_INLINE __forceinline
+	#elif defined __GNUC__
+		#define ALWAYS_INLINE __attribute__((always_inline)) inline
+	#else
+		#define ALWAYS_INLINE inline
+	#endif
+#else
+	#define ALWAYS_INLINE inline
+#endif
+// clang-format on
+
 namespace CAS {
 	namespace _util {
 		// A utility function to check if a char is in a list of
 		// other characters
 		template <size_t loc>
-		inline size_t impl_char_is_in(char cmp) {
+		ALWAYS_INLINE size_t impl_char_is_in(char cmp) {
 			(void) cmp;
 			return 0;
 		}
 
 		template <size_t loc, class... Args>
-		inline size_t impl_char_is_in(char cmp, char c1, Args... a) {
+		ALWAYS_INLINE size_t impl_char_is_in(char cmp, char c1, Args... a) {
 			if (cmp == c1) {
 				return loc;
 			}
