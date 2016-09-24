@@ -32,6 +32,7 @@ debug: DEBUG = -g -DDEBUG
 debug: OPTIMIZE = -O0
 debug: checkdirs $(PROGNAME)
 
+release: DEBUG = -DNDEBUG
 release: OPTIMIZE = -flto -fwhole-program 
 release: checkdirs $(PROGNAME)
 

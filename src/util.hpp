@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 // clang-format off
+// Multi-platform non-debug force inlining
 #ifndef DEBUG
 	#ifdef _MSC_VER
 		#define ALWAYS_INLINE __forceinline
