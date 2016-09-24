@@ -15,7 +15,8 @@ int main(int argc, char* argv[]) {
 	if (argc == 2) {
 		using_file = true;
 		filename   = argv[1];
-	} else if (argc != 1) {
+	}
+	else if (argc != 1) {
 		std::cerr << "Not enough arguments";
 	}
 
@@ -34,7 +35,8 @@ int main(int argc, char* argv[]) {
 		}
 
 		input_stream_ptr = &file_stream;
-	} else {
+	}
+	else {
 		input_stream_ptr = &std::cin;
 	}
 

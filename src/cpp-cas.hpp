@@ -20,6 +20,8 @@ namespace CAS {
 
 	class Interpreter {
 	  public:
+		Interpreter();
+
 	  private:
 		// Owning pointer to implimentation class, using the destructor object
 		std::unique_ptr<_detail::interpreter_impl, _detail::impl_dtor> impl;

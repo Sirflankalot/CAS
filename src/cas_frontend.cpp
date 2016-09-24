@@ -20,12 +20,12 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	    //
 	};
 
-	CAS::Command_t command = CAS::Command_t::NONE;
+	CAS::Command_t command{CAS::Command_t::NONE};
 	std::string args;
 	std::string expression;
 
-	bool has_command = false;
-	bool has_args    = true;
+	bool has_command{false};
+	bool has_args{true};
 
 	size_t i = 0; // current character index in the input string
 
@@ -42,7 +42,8 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 			if (input[i] == ' ') {
 				i += 1;
 				break;
-			} else if (input[i] == ':') {
+			}
+			else if (input[i] == ':') {
 				has_args = false;
 				break;
 			}
@@ -52,6 +53,7 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 		// If command is found in map, set the command
 		auto cmd_it = command_map.find(cmd_str);
 		if (cmd_it == command_map.end()) {
+			// TODO: This is dumb
 			throw std::runtime_error("Command not found");
 		}
 		command = (*cmd_it).second;

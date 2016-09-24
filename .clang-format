@@ -4,7 +4,11 @@ BasedOnStyle: LLVM
 UseTab: ForIndentation
 TabWidth: 4
 IndentWidth: 4
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
+BraceWrapping:  
+ BeforeCatch: true
+ BeforeElse: true
+ AfterFunction: false
 AllowShortBlocksOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
