@@ -10,7 +10,7 @@ DEBUG     :=
 INCLUDES  := 
 LINK      := 
 
-MODULES   := 
+MODULES   := interpreter
 SRC_DIR   := src $(addprefix src/,$(MODULES))
 BUILD_DIR := obj $(addprefix obj/,$(MODULES))
 
