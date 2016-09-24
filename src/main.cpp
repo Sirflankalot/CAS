@@ -4,21 +4,18 @@
 #include <string>
 
 #include "cas_frontend.hpp"
+#include "cpp-cas.hpp"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	// File constructs
 	bool using_file = false;
 	std::string filename;
 
 	// Two argments mean a file has been supplied
-	if (argc == 2)
-	{
+	if (argc == 2) {
 		using_file = true;
 		filename   = argv[1];
-	}
-	else if (argc != 1)
-	{
+	} else if (argc != 1) {
 		std::cerr << "Not enough arguments";
 	}
 
@@ -29,19 +26,15 @@ int main(int argc, char* argv[])
 	std::ifstream file_stream;
 
 	// Set streams accordingly if using file
-	if (using_file)
-	{
+	if (using_file) {
 		file_stream.open(filename);
-		if (!file_stream)
-		{
+		if (!file_stream) {
 			std::cerr << "File " << filename << " cannot be opened";
 			return 1;
 		}
 
 		input_stream_ptr = &file_stream;
-	}
-	else
-	{
+	} else {
 		input_stream_ptr = &std::cin;
 	}
 
@@ -50,8 +43,7 @@ int main(int argc, char* argv[])
 	bool quit = false;
 	while (!quit) // primary I/O loop
 	{
-		if (!using_file)
-		{
+		if (!using_file) {
 			std::cout << "> ";
 		}
 

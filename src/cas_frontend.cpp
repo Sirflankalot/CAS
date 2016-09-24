@@ -5,8 +5,7 @@
 #include <iostream>
 #include <unordered_map>
 
-CAS::User_Input_t CAS::separate_input(const std::string& input)
-{
+CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
 	    //
 	    {"simplify", CAS::Command_t::SIMPLIFY},
@@ -35,20 +34,15 @@ CAS::User_Input_t CAS::separate_input(const std::string& input)
 	has_command   = colon_it != input.end();
 
 	// If there is a colon, parse the command
-	if (has_command)
-	{
+	if (has_command) {
 		// Reads the first word terminated by a space or : as the command
 		// Finding a colon means there are no arguments
 		std::string cmd_str;
-		for (; i < input.size(); ++i)
-		{
-			if (input[i] == ' ')
-			{
+		for (; i < input.size(); ++i) {
+			if (input[i] == ' ') {
 				i += 1;
 				break;
-			}
-			else if (input[i] == ':')
-			{
+			} else if (input[i] == ':') {
 				has_args = false;
 				break;
 			}
@@ -57,19 +51,15 @@ CAS::User_Input_t CAS::separate_input(const std::string& input)
 
 		// If command is found in map, set the command
 		auto cmd_it = command_map.find(cmd_str);
-		if (cmd_it == command_map.end())
-		{
+		if (cmd_it == command_map.end()) {
 			throw std::runtime_error("Command not found");
 		}
 		command = (*cmd_it).second;
 
 		// Add arguments if applicable
-		if (has_args)
-		{
-			for (; i < input.size(); ++i)
-			{
-				if (input[i] == ':')
-				{
+		if (has_args) {
+			for (; i < input.size(); ++i) {
+				if (input[i] == ':') {
 					i += 1;
 					break;
 				}
@@ -84,20 +74,17 @@ CAS::User_Input_t CAS::separate_input(const std::string& input)
 	// skips the first space and adds the remaining characters in input to the string expression
 	// which holds the mathematical expression
 	// to be solved
-	for (; i < input.size(); i++)
-	{
+	for (; i < input.size(); i++) {
 		expression.push_back(input[i]);
 	}
 
 	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression)};
 }
 
-void CAS::handle_inputs(const CAS::Command_t& command, const std::string& argument)
-{
+void CAS::handle_inputs(const CAS::Command_t& command, const std::string& argument) {
 	(void) argument;
 
-	switch (command)
-	{
+	switch (command) {
 		default:
 			break;
 	}
