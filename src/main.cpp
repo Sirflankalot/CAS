@@ -8,8 +8,8 @@
 
 int main(int argc, char* argv[]) {
 	// File constructs
-	bool using_file = false;
-	std::string filename;
+	bool using_file{false};
+	std::string filename{""};
 
 	// Two argments mean a file has been supplied
 	if (argc == 2) {
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "C++ CAS\nversion 0.0\n";
 
-	bool quit = false;
+	bool quit{false};
 	while (!quit) // primary I/O loop
 	{
 		if (!using_file) {
