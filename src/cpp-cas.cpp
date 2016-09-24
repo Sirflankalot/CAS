@@ -54,8 +54,13 @@ namespace CAS {
 				}
 				for (char c : "for ") {
 					// If search is not in string, and search isn't null terminator
-					if (a[i] != c && c != '\0') {
-						throw std::runtime_error("Expected \"for\"");
+					if (a[i] != c) {
+						if (c != '\0') {
+							throw std::runtime_error("Expected \"for\"");
+						}
+						else {
+							break;
+						}
 					}
 					i += 1;
 				}
@@ -71,7 +76,7 @@ namespace CAS {
 						i += 1;
 					}
 
-					if (i < a.size()) {
+					if (i + 1 >= a.size()) {
 						finished = true;
 					}
 					else {

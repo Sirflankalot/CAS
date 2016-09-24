@@ -46,6 +46,9 @@ int main(int argc, char* argv[]) {
 	*out_stream << "C++ CAS\n"
 	               "version 0.0\n";
 
+	// Actual interpreter
+	CAS::Interpreter cas;
+
 	// primary I/O loop
 	bool quit{false};
 	while (!quit) {
@@ -65,7 +68,7 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 
-		CAS::handle_inputs(broken_down.command, broken_down.expression);
+		cas.input(broken_down);
 
 		// TODO: Impliment error management system
 	}

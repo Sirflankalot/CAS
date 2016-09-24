@@ -78,12 +78,3 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 
 	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression)};
 }
-
-void CAS::handle_inputs(const CAS::Command_t& command, const std::string& argument) {
-	(void) argument;
-
-	switch (command) {
-		default:
-			break;
-	}
-}

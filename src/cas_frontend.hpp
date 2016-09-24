@@ -39,9 +39,4 @@ namespace CAS {
 	// takes in a string and two string references
 	// separates the first string into a command and math expression
 	User_Input_t separate_input(const std::string&);
-
-	// handle_input: const std::string const std::string -> void
-	// take the appropriate action based on the command passed in and using the given math
-	// expression
-	void handle_inputs(const CAS::Command_t&, const std::string&);
 }
