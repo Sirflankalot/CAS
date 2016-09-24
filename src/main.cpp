@@ -9,7 +9,7 @@
 int main(int argc, char* argv[]) {
 	// File constructs
 	bool using_file{false};
-	std::string filename{""};
+	std::string filename{};
 
 	// Two argments mean a file has been supplied
 	if (argc == 2) {
@@ -17,11 +17,11 @@ int main(int argc, char* argv[]) {
 		filename   = argv[1];
 	}
 	else if (argc != 1) {
-		std::cerr << "Not enough arguments";
+		std::cerr << "Not enough arguments.\n";
 	}
 
-	// Non-owning pointer to the input type
-	std::istream* input_stream_ptr;
+	// Non-owning pointer to the input stream
+	std::istream* in_stream;
 
 	// File stream
 	std::ifstream file_stream;
@@ -30,31 +30,41 @@ int main(int argc, char* argv[]) {
 	if (using_file) {
 		file_stream.open(filename);
 		if (!file_stream) {
-			std::cerr << "File " << filename << " cannot be opened";
+			std::cerr << "File " << filename << " cannot be opened\n";
 			return 1;
 		}
 
-		input_stream_ptr = &file_stream;
+		in_stream = &file_stream;
 	}
 	else {
-		input_stream_ptr = &std::cin;
+		in_stream = &std::cin;
 	}
 
-	std::cout << "C++ CAS\nversion 0.0\n";
+	// Non-owning pointer to output stream
+	std::ostream* out_stream{&std::cout};
 
+	*out_stream << "C++ CAS\n"
+	               "version 0.0\n";
+
+	// primary I/O loop
 	bool quit{false};
-	while (!quit) // primary I/O loop
-	{
+	while (!quit) {
 		if (!using_file) {
-			std::cout << "> ";
+			*out_stream << "> ";
 		}
 
 		// Read string from user
 		std::string raw_input;
-		std::getline(*input_stream_ptr, raw_input, '\n');
+		std::getline(*in_stream, raw_input, '\n');
 
 		// Parse the command, send it to handler
 		auto broken_down = CAS::separate_input(raw_input);
+
+		if (broken_down.command == CAS::Command_t::QUIT) {
+			quit = true;
+			continue;
+		}
+
 		CAS::handle_inputs(broken_down.command, broken_down.expression);
 
 		// TODO: Impliment error management system

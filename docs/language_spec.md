@@ -65,6 +65,7 @@ command [arguments]: input
 
 Command      | Arguments       | Use
 ------------ | --------------- | -----------
+`quit`       | none            | Quits.
 `simplify`   | none            | Simplifies equation without moving variables from their side
 `solve`      | `for x [and y]` | Tries to isolate the variables provided. Returns a functor
 `substitute` | none            | Allows functions to remain unevaluated. ex. `f(7)` will be `(7) + 2` instead of `9`.

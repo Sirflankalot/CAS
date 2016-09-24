@@ -3,7 +3,7 @@ CXX       := g++
 FORMAT    := clang-format
 
 WARNINGS  := -Wall -Wextra 
-FULLWARN  := -Wall -Wextra -Wpedantic -pedantic-errors
+FULLWARN  := -Wall -Wextra -Wpedantic
 STD       := -std=c++14 
 OPTIMIZE  := -O3
 DEBUG     := 

@@ -2,7 +2,7 @@
 #include "cas-impl.hpp"
 
 namespace CAS {
-	Interpreter::Interpreter(){};
+	Interpreter::Interpreter() {}
 
 	void _detail::impl_dtor::operator()(interpreter_impl* ptr) {
 		delete ptr;

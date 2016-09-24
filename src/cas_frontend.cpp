@@ -8,6 +8,7 @@
 CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
 	    //
+	    {"quit", CAS::Command_t::QUIT},
 	    {"simplify", CAS::Command_t::SIMPLIFY},
 	    {"solve", CAS::Command_t::SOLVE},
 	    {"substitute", CAS::Command_t::SUBSTITUTE},
@@ -16,7 +17,7 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	    {"limit", CAS::Command_t::LIMIT},
 	    {"differentiate", CAS::Command_t::DIFFERENTIATE},
 	    {"integrate", CAS::Command_t::INTEGRATE},
-	    {"integrate_definite", CAS::Command_t::INTEGRATE_DEFINITE},
+	    {"integrate_definite", CAS::Command_t::INTEGRATE_DEFINITE}
 	    //
 	};
 
@@ -70,15 +71,10 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 		}
 	}
 
-	// Reserve the space needed for the expression
-	expression.reserve(input.size() - i);
-
 	// skips the first space and adds the remaining characters in input to the string expression
 	// which holds the mathematical expression
 	// to be solved
-	for (; i < input.size(); i++) {
-		expression.push_back(input[i]);
-	}
+	expression = input.substr(i);
 
 	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression)};
 }

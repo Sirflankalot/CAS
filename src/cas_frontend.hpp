@@ -9,6 +9,7 @@ namespace CAS {
 	handle_inputs.*/
 	enum class Command_t {
 		NONE = 0,
+		QUIT,
 		SIMPLIFY,
 		SOLVE,
 		SUBSTITUTE,
