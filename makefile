@@ -101,15 +101,24 @@ $(PROGNAME): $(OBJ)
 
 checkdirs: $(BUILD_DIR) bin
 
+MAKEDIR = mkdir -p
+RM  = rm -f
+RMR = rm -rf
+ifdef SYSTEMROOT
+	MAKEDIR = mkdir
+	RM = del
+	RMR = del
+endif
+
 $(BUILD_DIR):
-	@mkdir -p $@
+	@$(MAKEDIR) $@
 
 bin:
-	@mkdir -p $@
+	@$(MAKEDIR) -p $@
 
 clean:
-	@rm -rf bin/*
-	@rm -rf obj/*
-	@rm -f $(PROGNAME)
+	@$(RMR) bin/*
+	@$(RMR) obj/*
+	@$(RM) $(PROGNAME)
 
 $(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir))))
