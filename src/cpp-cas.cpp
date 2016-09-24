@@ -56,7 +56,7 @@ namespace CAS {
 					// If search is not in string, and search isn't null terminator
 					if (a[i] != c) {
 						if (c != '\0') {
-							throw std::runtime_error("Expected \"for\"");
+							throw Create_Temp_Error("Expected \"for\"");
 						}
 						else {
 							break;
@@ -83,11 +83,11 @@ namespace CAS {
 						i += 1;
 						// Check for 'and '
 						if (!(i + 4 < a.size())) {
-							throw std::runtime_error("Expected \"and\"");
+							throw Create_Temp_Error("Expected \"and\"");
 						}
 						for (char c : "and ") {
 							if (a[i] != c && c != '\0') {
-								throw std::runtime_error("Expected \"and\"");
+								throw Create_Temp_Error("Expected \"and\"");
 							}
 							i += 1;
 						}

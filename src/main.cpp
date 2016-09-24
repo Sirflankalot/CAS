@@ -61,15 +61,15 @@ int main(int argc, char* argv[]) {
 		std::string raw_input;
 		std::getline(*in_stream, raw_input, '\n');
 
-		// Parse the command, send it to handler
-		auto broken_down = CAS::separate_input(raw_input);
-
-		if (broken_down.command == CAS::Command_t::QUIT) {
-			quit = true;
-			continue;
-		}
-
 		try {
+			// Parse the command, send it to handler
+			auto broken_down = CAS::separate_input(raw_input);
+
+			if (broken_down.command == CAS::Command_t::QUIT) {
+				quit = true;
+				continue;
+			}
+
 			cas.input(broken_down);
 		}
 		catch (CAS::_util::Temp_Error& e) {

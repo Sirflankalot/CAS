@@ -1,9 +1,10 @@
-#include "cas_frontend.hpp"
-
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <unordered_map>
+
+#include "cas_frontend.hpp"
+#include "util.hpp"
 
 CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
@@ -55,7 +56,7 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 		auto cmd_it = command_map.find(cmd_str);
 		if (cmd_it == command_map.end()) {
 			// TODO: This is dumb
-			throw std::runtime_error("Command not found");
+			throw Create_Temp_Error("Command not found");
 		}
 		command = (*cmd_it).second;
 
