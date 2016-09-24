@@ -5,6 +5,7 @@
 
 #include "cas_frontend.hpp"
 #include "cpp-cas.hpp"
+#include "util.hpp"
 
 int main(int argc, char* argv[]) {
 	// File constructs
@@ -68,7 +69,12 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 
-		cas.input(broken_down);
+		try {
+			cas.input(broken_down);
+		}
+		catch (CAS::_util::Temp_Error& e) {
+			std::cerr << e.what() << '\n';
+		}
 
 		// TODO: Impliment error management system
 	}

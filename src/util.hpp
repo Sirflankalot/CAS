@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <stdexcept>
 
 // clang-format off
 // Multi-platform non-debug force inlining
@@ -16,6 +17,10 @@
 	#define ALWAYS_INLINE inline
 #endif
 // clang-format on
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define Create_Temp_Error(str) CAS::_util::Temp_Error(str " at " __FILE__ ":" TOSTRING(__LINE__))
 
 namespace CAS {
 	namespace _util {
@@ -46,5 +51,17 @@ namespace CAS {
 		inline bool is_whitespace(char cmp) {
 			return char_is_in(cmp, ' ', '\t');
 		}
+
+		// Basic error thing
+		class Temp_Error : public virtual std::exception {
+		  private:
+			const char* string;
+
+		  public:
+			Temp_Error(const char* str) : string(str) {}
+			virtual const char* what() const noexcept override {
+				return string;
+			}
+		};
 	}
 }

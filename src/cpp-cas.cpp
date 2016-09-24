@@ -50,7 +50,7 @@ namespace CAS {
 
 				// check for "for "
 				if (!(i + 4 < a.size())) {
-					throw std::runtime_error("Expected \"for\"");
+					throw Create_Temp_Error("Expected \"for\"");
 				}
 				for (char c : "for ") {
 					// If search is not in string, and search isn't null terminator
