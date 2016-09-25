@@ -36,7 +36,7 @@ release: DEBUG = -DNDEBUG
 release: OPTIMIZE = -flto -fwhole-program 
 release: checkdirs $(PROGNAME)
 
-profile: DEBUG = -pg
+profile: DEBUG = -g
 profile: checkdirs $(PROGNAME)
 
 warn: WARNINGS = $(FULLWARN)
