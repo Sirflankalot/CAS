@@ -22,7 +22,7 @@ extern std::ostream* error_stream; // Non-owning pointer to error stream
 	"Command            | Arguments        | Use\n"                                                  \
 	"------------------ | ---------------- | -----------\n"                                          \
 	"quit               | none             | Quits.\n"                                               \
-	"help               | none             | Displays the help menu\n"                               \
+	"help               | none             | Displays this help menu\n"                              \
 	"calculate          | none             | Default behavior, evaluates\n"                          \
 	"                   |                  | the expression normally\n"                              \
 	"simplify           | none             | Simplifies equation without moving \n"                  \

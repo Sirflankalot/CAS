@@ -29,6 +29,12 @@ namespace CAS {
 			}
 		};
 
+		auto error_with_no_args = [&]() {
+			if (input.args.size() == 0) {
+				throw Create_Temp_Error("Arguments needed");
+			}
+		};
+
 		switch (input.command) {
 			case CAS::Command_t::NONE:
 			case CAS::Command_t::CALCULATE:
@@ -43,10 +49,12 @@ namespace CAS {
 
 			// Parse arguments for Solve
 			case CAS::Command_t::SOLVE: {
-				std::vector<std::string> variables;
-				size_t i = 0;
+				error_with_no_args();
 
+				size_t i = 0;
 				auto&& a = input.args;
+
+				std::vector<std::string> variables;
 
 				// Skip whitespace
 				_util::skip_whitespace(a, i);
@@ -115,16 +123,13 @@ namespace CAS {
 
 			// Parse interpolations args
 			case CAS::Command_t::INTERPOLATE: {
-				_detail::Interpolation_t inter;
-
-				if (input.args.size() == 0) {
-					throw Create_Temp_Error("Arguments needed");
-				}
+				error_with_no_args();
 
 				size_t i = 0;
 				_util::skip_whitespace(input.args, i);
-
 				auto a = input.args.substr(i);
+
+				_detail::Interpolation_t inter;
 
 				if (a == "constant") {
 					inter = _detail::Interpolation_t::CONSTANT;
@@ -157,8 +162,9 @@ namespace CAS {
 				break;
 
 			case CAS::Command_t::DIFFERENTIATE: {
-				size_t i = 0;
+				error_with_no_args();
 
+				size_t i = 0;
 				auto&& a = input.args;
 
 				_detail::Differentiation_t diff{1, true};
@@ -204,14 +210,14 @@ namespace CAS {
 				break;
 
 			case CAS::Command_t::INTEGRATE_DEFINITE: {
-				_detail::Definite_Integration_t def_int;
+				error_with_no_args();
 
 				auto&& a = input.args;
-
 				size_t i = 0;
 
-				_util::skip_whitespace(a, i);
+				_detail::Definite_Integration_t def_int;
 
+				_util::skip_whitespace(a, i);
 				// Extract the variable name
 				while (i < a.size() && a[i] != ' ') {
 					def_int.variable.push_back(a[i]);
@@ -269,7 +275,7 @@ namespace CAS {
 					throw Create_Temp_Error("Expected ending number");
 				}
 
-				impl->eval_calculate(input.expression.c_str());
+				impl->eval_integrate_definite(input.expression.c_str(), def_int);
 				break;
 			}
 
