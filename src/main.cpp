@@ -6,7 +6,7 @@
 #include "cas_frontend.hpp"
 #include "cpp-cas.hpp"
 #include "globals.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 std::istream* in_stream{&std::cin};
 std::ostream* out_stream{&std::cout};

@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "cas_frontend.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{

@@ -7,10 +7,10 @@ FULLWARN  := -Wall -Wextra -Wpedantic
 STD       := -std=c++14 
 OPTIMIZE  := -O3
 DEBUG     := 
-INCLUDES  := 
+INCLUDES  := -Isrc/
 LINK      := 
 
-MODULES   := interpreter
+MODULES   := interpreter util
 SRC_DIR   := src $(addprefix src/,$(MODULES))
 BUILD_DIR := obj $(addprefix obj/,$(MODULES))
 

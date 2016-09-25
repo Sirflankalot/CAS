@@ -1,7 +1,7 @@
 #include "cpp-cas.hpp"
 #include "cas-impl.hpp"
 #include "globals.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -209,7 +209,8 @@ namespace CAS {
 
 				// Set the n value based on text
 				if (_util::is_number(a[i])) {
-					diff.n = atoll(a.c_str() + i);
+					// atoll ignores characters after the number
+					diff.n = std::atoll(a.c_str() + i);
 				}
 				else {
 					throw Create_Temp_Error("Expected number");
