@@ -31,6 +31,3 @@
 # Folders
 bin/
 obj/
-
-# .CAS
-*.cas

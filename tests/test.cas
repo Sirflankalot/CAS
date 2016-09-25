@@ -1,0 +1,33 @@
+simplify:
+simplify :
+solve for x:
+solve  for  x :
+solve for x and y:
+solve  for  x  and  y:
+substitute:
+interpolate constant:
+interpolate linear:
+interpolate cosine:
+interpolate spline:
+interpolate  constant:
+interpolate  linear:
+interpolate  cosine:
+interpolate  spline:
+root:
+limit:
+differentiate 512th: 
+differentiate  512th: 
+differentiate 512: 
+differentiate  512: 
+differentiate partial 512th: 
+differentiate  partial 512th: 
+differentiate partial  512: 
+differentiate  partial  512: 
+integrate:
+integrate_definite x {1, 2}:
+integrate_definite  x  { 1 , 2  }  :
+integrate_definite   x   {  1  ,   2  }  :
+integrate_definite x {-21.12, -212.31}:
+integrate_definite  x  { -21.12 , -212.31  }  :
+integrate_definite   x   {  -21.12  ,   -212.31  }  :
+quit:
