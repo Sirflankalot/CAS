@@ -102,6 +102,7 @@ namespace CAS {
 		}
 
 		// Related utilites for specialties.
+		// Constexpr in case all arguments are also constexpr
 		constexpr inline bool is_whitespace(char cmp) {
 			return char_is_in(cmp, ' ', '\t');
 		}
