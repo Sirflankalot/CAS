@@ -5,7 +5,12 @@
 
 #include "cas_frontend.hpp"
 #include "cpp-cas.hpp"
+#include "globals.hpp"
 #include "util.hpp"
+
+std::istream* in_stream{&std::cin};
+std::ostream* out_stream{&std::cout};
+std::ostream* error_stream{&std::cerr};
 
 int main(int argc, char* argv[]) {
 	// File constructs
@@ -18,11 +23,10 @@ int main(int argc, char* argv[]) {
 		filename   = argv[1];
 	}
 	else if (argc != 1) {
-		std::cerr << "Not enough arguments.\n";
+		*error_stream << "Too many arguments.\n"
+		              << "Usage: " << argv[0] << CAS_HELP_TEXT;
+		return 1;
 	}
-
-	// Non-owning pointer to the input stream
-	std::istream* in_stream;
 
 	// File stream
 	std::ifstream file_stream;
@@ -31,21 +35,16 @@ int main(int argc, char* argv[]) {
 	if (using_file) {
 		file_stream.open(filename);
 		if (!file_stream) {
-			std::cerr << "File " << filename << " cannot be opened\n";
+			*error_stream << "File " << filename << " cannot be opened\n";
 			return 1;
 		}
 
 		in_stream = &file_stream;
 	}
-	else {
-		in_stream = &std::cin;
-	}
-
-	// Non-owning pointer to output stream
-	std::ostream* out_stream{&std::cout};
 
 	*out_stream << "C++ CAS\n"
-	               "version 0.0\n";
+	            << CAS_COPYRIGHT "\n"
+	            << "version " CAS_VERSION_STR "\n";
 
 	// Actual interpreter
 	CAS::Interpreter cas;
@@ -73,7 +72,7 @@ int main(int argc, char* argv[]) {
 			cas.input(broken_down);
 		}
 		catch (CAS::_util::Temp_Error& e) {
-			std::cerr << e.what() << '\n';
+			*error_stream << e.what() << '\n';
 		}
 
 		// TODO: Impliment error management system

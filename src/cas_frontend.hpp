@@ -10,6 +10,8 @@ namespace CAS {
 	enum class Command_t {
 		NONE = 0,
 		QUIT,
+		HELP,
+		CALCULATE,
 		SIMPLIFY,
 		SOLVE,
 		SUBSTITUTE,

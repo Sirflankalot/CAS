@@ -57,7 +57,7 @@ h(x) = f(g(x))
 
 ## Commands
 
-cpp-cas has a set of commands that can be used to carry out more advanced operations. Arguments are optional The command format is 
+cpp-cas has a set of commands that can be used to carry out more advanced operations. Commands are optional. The command format is 
 
 ```
 command [arguments]: input
@@ -66,6 +66,8 @@ command [arguments]: input
 Command      | Arguments       | Use
 ------------ | --------------- | -----------
 `quit`       | none            | Quits.
+`help`       | none            | Displays the help menu
+`calculate`  | none            | Default behavior, evaluates the expression normally
 `simplify`   | none            | Simplifies equation without moving variables from their side
 `solve`      | `for x [and y]` | Tries to isolate the variables provided. Returns a functor
 `substitute` | none            | Allows functions to remain unevaluated. ex. `f(7)` will be `(7) + 2` instead of `9`.
@@ -73,8 +75,8 @@ Command      | Arguments       | Use
 `root`       | none            | Takes the root of a quadratic or a cubic functor
 `limit`      | none            | Finds the domain limits of a single variable functor
 `differentiate`     | `[partial] 1st | 2nd...`  | Calculates the n-th [partial] derivative of the provided expression
-`integrate`    | none   | Calculates the indefinite integral
-`integrate_definite`| <code>x,{a,b}</code> | Returns the definite integral of the given function for x in the range a to b
+`integrate`         | none                      | Calculates the indefinite integral
+`integrate_definite`| `x {a,b}` | Returns the definite integral of the given function for x in the range a to b
 
 The command is optional and assignments are allowed as part of the input.
 

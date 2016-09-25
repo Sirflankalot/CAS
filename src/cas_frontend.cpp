@@ -10,6 +10,8 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
 	    //
 	    {"quit", CAS::Command_t::QUIT},
+	    {"help", CAS::Command_t::HELP},
+	    {"calculate", CAS::Command_t::CALCULATE},
 	    {"simplify", CAS::Command_t::SIMPLIFY},
 	    {"solve", CAS::Command_t::SOLVE},
 	    {"substitute", CAS::Command_t::SUBSTITUTE},
@@ -39,6 +41,8 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	if (has_command) {
 		// Reads the first word terminated by a space or : as the command
 		// Finding a colon means there are no arguments
+		_util::skip_whitespace(input, i);
+
 		std::string cmd_str;
 		for (; i < input.size(); ++i) {
 			if (input[i] == ' ') {
@@ -59,6 +63,8 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 			throw Create_Temp_Error("Command not found");
 		}
 		command = (*cmd_it).second;
+
+		_util::skip_whitespace(input, i);
 
 		// Add arguments if applicable
 		if (has_args) {
