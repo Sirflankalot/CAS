@@ -20,6 +20,7 @@
 #endif
 // clang-format on
 
+// Temporary error system
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 #define Create_Temp_Error(str) CAS::_util::Temp_Error(str " at " __FILE__ ":" TOSTRING(__LINE__))

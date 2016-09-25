@@ -29,6 +29,8 @@ namespace CAS {
 			}
 		};
 
+		// Lambda that throws an error if command that needs
+		// arguments isn't supplied any arguments
 		auto error_with_no_args = [&]() {
 			if (input.args.size() == 0) {
 				throw Create_Temp_Error("Arguments needed");
@@ -36,18 +38,21 @@ namespace CAS {
 		};
 
 		switch (input.command) {
+			// Forwards to default behavior
 			case CAS::Command_t::NONE:
 			case CAS::Command_t::CALCULATE:
 				warn_on_args();
 				impl->eval_calculate(input.expression.c_str());
 				break;
 
+			// Forwards to simplification method
 			case CAS::Command_t::SIMPLIFY:
 				warn_on_args();
 				impl->eval_simplify(input.expression.c_str());
 				break;
 
-			// Parse arguments for Solve
+			// Parse arguments for solve method
+			// then call solve
 			case CAS::Command_t::SOLVE: {
 				error_with_no_args();
 
@@ -56,14 +61,13 @@ namespace CAS {
 
 				std::vector<std::string> variables;
 
-				// Skip whitespace
 				_util::skip_whitespace(a, i);
 
-				// check for "for "
-				if (!(i + 4 < a.size())) {
+				// check for a "for" at the current location
+				if (!(i + 3 < a.size())) {
 					throw Create_Temp_Error("Expected \"for\"");
 				}
-				for (char c : "for ") {
+				for (char c : "for") {
 					// If search is not in string, and search isn't null terminator
 					if (a[i] != c) {
 						if (c != '\0') {
@@ -78,12 +82,13 @@ namespace CAS {
 
 				bool finished{false};
 
-				// Collect variables
+				// Collect all variable names one per loop
 				while (!finished) {
 					std::string var;
 
 					_util::skip_whitespace(a, i);
 
+					// Grab first name
 					while (i < a.size() && !_util::is_whitespace(a[i])) {
 						var.push_back(a[i]);
 						i += 1;
@@ -91,17 +96,18 @@ namespace CAS {
 
 					_util::skip_whitespace(a, i);
 
+					// If we are at the end of the string, mark finished
 					if (i + 1 >= a.size()) {
 						finished = true;
 					}
 					else {
 						_util::skip_whitespace(a, i);
 
-						// Check for 'and '
-						if (!(i + 4 < a.size())) {
+						// Check for 'and'
+						if (!(i + 3 < a.size())) {
 							throw Create_Temp_Error("Expected \"and\"");
 						}
-						for (char c : "and ") {
+						for (char c : "and") {
 							if (a[i] != c && c != '\0') {
 								throw Create_Temp_Error("Expected \"and\"");
 							}
@@ -109,13 +115,16 @@ namespace CAS {
 						}
 					}
 
+					// Move construct the variable name onto the list
 					variables.emplace_back(std::move(var));
 				}
 
+				// Call solve function
 				impl->eval_solve(input.expression.c_str(), variables);
 				break;
 			}
 
+			// Forwards to substitution method
 			case CAS::Command_t::SUBSTITUTE:
 				warn_on_args();
 				impl->eval_substitute(input.expression.c_str());
@@ -125,12 +134,14 @@ namespace CAS {
 			case CAS::Command_t::INTERPOLATE: {
 				error_with_no_args();
 
+				// Compare with a string that has the whitespace cut off
 				size_t i = 0;
 				_util::skip_whitespace(input.args, i);
 				auto a = input.args.substr(i);
 
 				_detail::Interpolation_t inter;
 
+				// Check for each argument
 				if (a == "constant") {
 					inter = _detail::Interpolation_t::CONSTANT;
 				}
@@ -147,20 +158,24 @@ namespace CAS {
 					throw Create_Temp_Error("Invalid arguments");
 				}
 
+				// Call interpolate function
 				impl->eval_interpolate(input.expression.c_str(), inter);
 				break;
 			}
 
+			// Forwards to rooting method
 			case CAS::Command_t::ROOT:
 				warn_on_args();
 				impl->eval_root(input.expression.c_str());
 				break;
 
+			// Forwards to limiting method
 			case CAS::Command_t::LIMIT:
 				warn_on_args();
 				impl->eval_limit(input.expression.c_str());
 				break;
 
+			// Parses function for differentiation function
 			case CAS::Command_t::DIFFERENTIATE: {
 				error_with_no_args();
 
@@ -169,9 +184,9 @@ namespace CAS {
 
 				_detail::Differentiation_t diff{1, true};
 
-				// Search for "partial "
-				if (a.size() >= 8) {
-					for (char c : "partial ") {
+				// Search for "partial"
+				if (a.size() >= 7) {
+					for (char c : "partial") {
 						// Reset if partial isn't found
 						if (c != '\0') {
 							if (a[i] != c) {
@@ -192,7 +207,7 @@ namespace CAS {
 
 				_util::skip_whitespace(a, i);
 
-				// Search for n value
+				// Set the n value based on text
 				if (_util::is_number(a[i])) {
 					diff.n = atoll(a.c_str() + i);
 				}
