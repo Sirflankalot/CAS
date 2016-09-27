@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+
 namespace CAS {
 	namespace _meta {
 		// Applies a template struct to each value (applies S<T>::value)
@@ -34,6 +36,10 @@ namespace CAS {
 		// constexpr static size_t size
 		template <class T, class... Types>
 		struct max_align;
+
+		// Returns largest integer type needed to store value
+		template <size_t val>
+		struct max_int_needed;
 	}
 }
 
