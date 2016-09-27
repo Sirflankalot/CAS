@@ -1,2 +1,2 @@
 # CAS
-A simple C++ based Computer Algebra System 
+A minimalist Computer Algebra System written in the C++ Programming Language 
