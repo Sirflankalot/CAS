@@ -1,5 +1,5 @@
-#include "util/type_utils.hpp"
 #include "util/variant.hpp"
+#include "util/type_utils.hpp"
 
 using namespace CAS::_meta;
 
@@ -49,3 +49,33 @@ static_assert(max_size<bool, int, long, long long, Struct_32, Overaligned_Struct
 // max_align
 static_assert(max_align<bool, int, long, long long, Struct_32, Overaligned_Struct_64>::size == 32,
               "max_align not giving correct size");
+
+// max_int_needed
+static_assert(std::is_same<typename max_int_needed<327860>::type, unsigned int>::value,
+              "max_int_needed not correct");
+
+#ifdef CAS_VARIANT_DEBUG
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
+
+void variant_test_function() {
+	using var = CAS::_util::Heap_Variant<std::string, std::vector<std::string>>;
+	var w;
+
+	std::cerr << alignof(var) << ", " << sizeof(var) << '\n';
+
+	auto x = w;
+	auto y = std::move(x);
+	assert(y.tag_val() == var::tag_of<void>::value);
+
+	auto a = std::string("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+	y      = a;
+	assert(y.tag_val() == var::tag_of<decltype(a)>::value);
+
+	auto b = std::vector<std::string>({"blah", "blee", "blooo", "blumbbbb"});
+	y      = std::move(b);
+	assert(y.tag_val() == var::tag_of<decltype(b)>::value);
+}
+#endif // CAS_VARIANT_DEBUG

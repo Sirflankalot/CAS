@@ -7,12 +7,17 @@
 #include "cpp-cas.hpp"
 #include "globals.hpp"
 #include "util/util.hpp"
+#include "util/variant.hpp"
 
 std::istream* in_stream{&std::cin};
 std::ostream* out_stream{&std::cout};
 std::ostream* error_stream{&std::cerr};
 
 int main(int argc, char* argv[]) {
+#ifdef CAS_VARIANT_DEBUG
+	variant_test_function();
+#endif // CAS_VARIANT_DEBUG
+
 	// File constructs
 	bool using_file{false};
 	std::string filename{};

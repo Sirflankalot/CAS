@@ -28,11 +28,11 @@ namespace CAS {
 		// template<class T>
 		// T get()           // Get value if value is type T, otherwise throw bad_variant_get
 		//
-		// size_t get_tag_val() // Get current value of internal tag
+		// size_t tag_val() // Get current value of internal tag
 		//
-		// Structure to get correct tag value for each type
+		// structure to get correct tag value for each type
 		// template<class T>
-		// struct tag {
+		// struct tag_of {
 		//     constexpr static size_t value;
 		// };
 
@@ -48,3 +48,7 @@ namespace CAS {
 		struct bad_variant_get;
 	}
 }
+
+void variant_test_function();
+
+#include "variant.tpp"

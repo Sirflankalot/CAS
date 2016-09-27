@@ -26,7 +26,12 @@ PROGNAME := cas
 
 .PHONY: all checkdirs clean
 
-all: checkdirs $(PROGNAME)
+all: norm
+
+variant-debug: WARNINGS += -DCAS_VARIANT_DEBUG
+variant-debug: sanitize
+
+norm: checkdirs $(PROGNAME)
 
 debug: DEBUG = -g -DDEBUG
 debug: OPTIMIZE = -O0
@@ -42,6 +47,7 @@ profile: checkdirs $(PROGNAME)
 warn: WARNINGS = $(FULLWARN)
 warn: checkdirs $(PROGNAME)
 
+sanitize: OPTIMIZE = -O0
 sanitize: DEBUG = -g -fsanitize=address
 sanitize: checkdirs $(PROGNAME)
 
