@@ -112,10 +112,10 @@ ifdef SYSTEMROOT
 endif
 
 $(BUILD_DIR):
-	@$(MAKEDIR) $@
+	@$(MAKEDIR) "$@"
 
 bin:
-	@$(MAKEDIR) -p $@
+	@$(MAKEDIR) "$@"
 
 clean:
 	@$(RMR) bin/*
