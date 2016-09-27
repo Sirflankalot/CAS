@@ -48,5 +48,3 @@ namespace CAS {
 		struct bad_variant_get;
 	}
 }
-
-#include "variant.tpp"
