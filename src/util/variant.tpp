@@ -8,6 +8,13 @@
 
 namespace CAS {
 	namespace _util {
+		struct bad_variant_get : public std::exception {
+		  public:
+			virtual const char* what() const noexcept override {
+				return "A variant was accessed with the wrong type\n";
+			}
+		};
+
 		template <class T1, class... Types>
 		class Heap_Variant {
 		  public:
@@ -107,10 +114,15 @@ namespace CAS {
 			}
 
 			template <class T>
-			T get() {
+			T& get() {
 				static_assert(check_type<T>::value, "Get type must be in list of subtypes");
 
-				return *reinterpret_cast<T*>(data_ptr);
+				if (check_type<T>::index == tag) {
+					return *reinterpret_cast<T*>(data_ptr);
+				}
+				else {
+					throw bad_variant_get();
+				}
 			}
 
 			tag_type tag_val() {
@@ -126,6 +138,16 @@ namespace CAS {
 			char* data_ptr = nullptr;
 			tag_type tag   = type_count;
 
+			Heap_Variant(char* const val) {
+				this->data_ptr = val;
+			};
+
+			Heap_Variant(const Heap_Variant& in, char* const val) {
+				this->data_ptr = val;
+				std::memcpy(this->data_ptr, in.data_ptr, max_size);
+				this->tag = in.tag;
+			}
+
 			void allocate() {
 				// Align the pointer if needed
 				if (max_align > alignof(std::max_align_t)) {
@@ -135,7 +157,7 @@ namespace CAS {
 					void* aligned =
 					    std::align(max_align, max_size, static_cast<void*&>(unaligned_ref), space);
 					if (aligned == nullptr) {
-						delete unaligned;
+						delete[] unaligned;
 						throw std::bad_alloc();
 					}
 					data_ptr = static_cast<char*>(aligned);
@@ -176,9 +198,10 @@ namespace CAS {
 		  public:
 			using Parent = Heap_Variant<T1, Types...>;
 
-			Stack_Variant() : Parent(){};
-			Stack_Variant(const Stack_Variant& val) : Parent(val){};
-			Stack_Variant(Stack_Variant&& val) : Parent(const_cast<const Stack_Variant>(val)){};
+			Stack_Variant() : Parent(data){};
+			Stack_Variant(const Stack_Variant& val) : Parent(val, data){};
+			Stack_Variant(Stack_Variant&& val)
+			    : Parent(const_cast<const Stack_Variant&>(val), data){};
 
 			template <class T,
 			          typename = std::enable_if_t<!std::is_convertible<T, Stack_Variant>::value>>
@@ -201,6 +224,12 @@ namespace CAS {
 			Stack_Variant& operator=(T&& val) {
 				Parent::operator=(val);
 				return *this;
+			}
+
+			~Stack_Variant() {
+				Parent::destruct();
+				Parent::data_ptr = nullptr;
+				Parent::tag      = Parent::type_count;
 			}
 
 		  private:

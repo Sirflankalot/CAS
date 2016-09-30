@@ -26,7 +26,7 @@ namespace CAS {
 		// Variant& operator=(T&&)      // move-assign subtype
 		//
 		// template<class T>
-		// T get()           // Get value if value is type T, otherwise throw bad_variant_get
+		// T& get()           // Get value if value is type T, otherwise throw bad_variant_get
 		//
 		// size_t tag_val() // Get current value of internal tag
 		//

@@ -5,7 +5,7 @@ FORMAT    := clang-format
 WARNINGS  := -Wall -Wextra 
 FULLWARN  := -Wall -Wextra -Wpedantic
 STD       := -std=c++14 
-OPTIMIZE  := -O3
+OPTIMIZE  := -O3 -fno-strict-aliasing
 DEBUG     := 
 INCLUDES  := -Isrc/
 LINK      := 
@@ -27,6 +27,9 @@ PROGNAME := cas
 .PHONY: all checkdirs clean
 
 all: norm
+
+variant-test: WARNINGS += -DCAS_VARIANT_DEBUG
+variant-test: debug
 
 variant-debug: WARNINGS += -DCAS_VARIANT_DEBUG
 variant-debug: sanitize

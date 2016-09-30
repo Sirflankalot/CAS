@@ -1,5 +1,5 @@
-#include "util/variant.hpp"
 #include "util/type_utils.hpp"
+#include "util/variant.hpp"
 
 using namespace CAS::_meta;
 
@@ -55,27 +55,46 @@ static_assert(std::is_same<typename max_int_needed<327860>::type, unsigned int>:
               "max_int_needed not correct");
 
 #ifdef CAS_VARIANT_DEBUG
+#include <array>
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
 
 void variant_test_function() {
-	using var = CAS::_util::Heap_Variant<std::string, std::vector<std::string>>;
+	using var = CAS::_util::Variant<std::string, std::vector<std::string>,
+	                                std::array<Overaligned_Struct_64, 15>>;
 	var w;
 
 	std::cerr << alignof(var) << ", " << sizeof(var) << '\n';
+	std::cerr << var::max_align << ", " << var::max_size << '\n';
 
-	auto x = w;
-	auto y = std::move(x);
+	var x = w;
+	var y = std::move(x);
 	assert(y.tag_val() == var::tag_of<void>::value);
-
-	auto a = std::string("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-	y      = a;
-	assert(y.tag_val() == var::tag_of<decltype(a)>::value);
 
 	auto b = std::vector<std::string>({"blah", "blee", "blooo", "blumbbbb"});
 	y      = std::move(b);
 	assert(y.tag_val() == var::tag_of<decltype(b)>::value);
+
+	auto a = std::string(
+	    "This is a string large enough so that it can't be stored using small string "
+	    "optimization\n");
+	y = a;
+	assert(y.tag_val() == var::tag_of<decltype(a)>::value);
+
+	y.get<std::string>() = a;
+	y.get<std::string>() = std::move(a);
+
+	try {
+		auto q = y.get<std::vector<std::string>>();
+	}
+	catch (CAS::_util::bad_variant_get&) {
+		std::cerr << "yes.\n";
+	}
+
+	assert((reinterpret_cast<size_t>(&(y.get<std::string>())) % var::max_align) == 0);
+
+	std::cerr << y.get<std::string>();
 }
 #endif // CAS_VARIANT_DEBUG
