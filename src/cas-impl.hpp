@@ -50,7 +50,8 @@ namespace CAS {
 				TILDE         = 19, // ~
 				BANG          = 20, // !
 				                    //
-				SEMICOLON = 21      // ;
+				COMMA     = 21,     // ,
+				SEMICOLON = 22      // ;
 			} type;
 
 			Token_t(Type_List it, size_t iloc, size_t ln, size_t cn)
