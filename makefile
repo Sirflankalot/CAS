@@ -3,7 +3,7 @@ CXX       := g++
 FORMAT    := clang-format
 
 WARNINGS  := -Wall -Wextra 
-FULLWARN  := -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -fstack-usage=768
+FULLWARN  := -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
 STD       := -std=c++14 
 OPTIMIZE  := -O3 -fno-strict-aliasing
 DEBUG     := 

@@ -51,7 +51,8 @@ namespace CAS {
 				SEMICOLON = 21      // ;
 			} type;
 
-			Token_t(Type_List it, size_t iloc = -1) : data_loc(iloc), type(it) {}
+			Token_t(Type_List it, size_t iloc = static_cast<size_t>(-1))
+			    : data_loc(iloc), type(it) {}
 		};
 
 		struct Token_List_t {

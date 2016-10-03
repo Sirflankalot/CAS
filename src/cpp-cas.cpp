@@ -210,7 +210,7 @@ namespace CAS {
 				// Set the n value based on text
 				if (_util::is_number(a[i])) {
 					// atoll ignores characters after the number
-					diff.n = std::atoll(a.c_str() + i);
+					diff.n = static_cast<size_t>(std::atoll(a.c_str() + i));
 				}
 				else {
 					throw Create_Temp_Error("Expected number");
