@@ -10,7 +10,7 @@ DEBUG     :=
 INCLUDES  := -Isrc/
 LINK      := 
 
-MODULES   := interpreter util
+MODULES   := compiler util
 SRC_DIR   := src $(addprefix src/,$(MODULES))
 BUILD_DIR := obj $(addprefix obj/,$(MODULES))
 
