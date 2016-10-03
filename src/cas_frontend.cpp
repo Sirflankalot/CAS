@@ -7,6 +7,9 @@
 #include "util/util.hpp"
 
 CAS::User_Input_t CAS::separate_input(const std::string& input) {
+	static size_t line = 0;
+	line += 1;
+
 	static const std::unordered_map<std::string, CAS::Command_t> command_map{
 	    //
 	    {"quit", CAS::Command_t::QUIT},
@@ -37,6 +40,7 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	auto colon_it = std::find(input.begin(), input.end(), ':');
 	has_command   = colon_it != input.end();
 
+	size_t size_of_command = 0;
 	// If there is a colon, parse the command
 	if (has_command) {
 		// Reads the first word terminated by a space or : as the command
@@ -76,6 +80,8 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 				args.push_back(input[i]);
 			}
 		}
+
+		size_of_command = cmd_str.size();
 	}
 
 	// skips the first space and adds the remaining characters in input to the string expression
@@ -83,5 +89,6 @@ CAS::User_Input_t CAS::separate_input(const std::string& input) {
 	// to be solved
 	expression = input.substr(i);
 
-	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression)};
+	return CAS::User_Input_t{std::move(command), std::move(args), std::move(expression), line,
+	                         size_of_command};
 }

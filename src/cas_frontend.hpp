@@ -25,9 +25,22 @@ namespace CAS {
 
 	// A simple struct to return user input from
 	struct User_Input_t {
+		User_Input_t(CAS::Command_t ic, std::string ia, std::string ie, size_t li,
+		             size_t command_size)
+		    : command(std::move(ic)),
+		      args(std::move(ia)),
+		      expression(std::move(ie)),
+		      line(li),
+		      char_command(0),
+		      char_args(command_size),
+		      char_expression(command_size + args.size()) {}
 		CAS::Command_t command;
 		std::string args;
 		std::string expression;
+		size_t line;
+		size_t char_command;
+		size_t char_args;
+		size_t char_expression;
 	};
 
 	// get_input: std::istream& -> std::string

@@ -42,13 +42,13 @@ namespace CAS {
 			case CAS::Command_t::NONE:
 			case CAS::Command_t::CALCULATE:
 				warn_on_args();
-				impl->eval_calculate(input.expression);
+				impl->eval_calculate(input.expression, input.line, input.char_expression);
 				break;
 
 			// Forwards to simplification method
 			case CAS::Command_t::SIMPLIFY:
 				warn_on_args();
-				impl->eval_simplify(input.expression);
+				impl->eval_simplify(input.expression, input.line, input.char_expression);
 				break;
 
 			// Parse arguments for solve method
@@ -120,14 +120,14 @@ namespace CAS {
 				}
 
 				// Call solve function
-				impl->eval_solve(input.expression, variables);
+				impl->eval_solve(input.expression, variables, input.line, input.char_expression);
 				break;
 			}
 
 			// Forwards to substitution method
 			case CAS::Command_t::SUBSTITUTE:
 				warn_on_args();
-				impl->eval_substitute(input.expression);
+				impl->eval_substitute(input.expression, input.line, input.char_expression);
 				break;
 
 			// Parse interpolations args
@@ -159,20 +159,20 @@ namespace CAS {
 				}
 
 				// Call interpolate function
-				impl->eval_interpolate(input.expression, inter);
+				impl->eval_interpolate(input.expression, inter, input.line, input.char_expression);
 				break;
 			}
 
 			// Forwards to rooting method
 			case CAS::Command_t::ROOT:
 				warn_on_args();
-				impl->eval_root(input.expression);
+				impl->eval_root(input.expression, input.line, input.char_expression);
 				break;
 
 			// Forwards to limiting method
 			case CAS::Command_t::LIMIT:
 				warn_on_args();
-				impl->eval_limit(input.expression);
+				impl->eval_limit(input.expression, input.line, input.char_expression);
 				break;
 
 			// Parses function for differentiation function
@@ -209,20 +209,20 @@ namespace CAS {
 
 				// Set the n value based on text
 				if (_util::is_number(a[i])) {
-					// atoll ignores characters after the number
-					diff.n = static_cast<size_t>(std::atoll(a.c_str() + i));
+					// strtoull ignores characters after the number
+					diff.n = std::strtoull(a.c_str() + i, nullptr, 10);
 				}
 				else {
 					throw Create_Temp_Error("Expected number");
 				}
 
-				impl->eval_differentiate(input.expression, diff);
+				impl->eval_differentiate(input.expression, diff, input.line, input.char_expression);
 				break;
 			}
 
 			case CAS::Command_t::INTEGRATE:
 				warn_on_args();
-				impl->eval_integrate(input.expression);
+				impl->eval_integrate(input.expression, input.line, input.char_expression);
 				break;
 
 			case CAS::Command_t::INTEGRATE_DEFINITE: {
@@ -291,7 +291,8 @@ namespace CAS {
 					throw Create_Temp_Error("Expected ending number");
 				}
 
-				impl->eval_integrate_definite(input.expression, def_int);
+				impl->eval_integrate_definite(input.expression, def_int, input.line,
+				                              input.char_expression);
 				break;
 			}
 

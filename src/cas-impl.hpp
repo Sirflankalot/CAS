@@ -24,6 +24,8 @@ namespace CAS {
 
 		struct Token_t {
 			size_t data_loc;
+			size_t line_num;
+			size_t char_num;
 			enum Type_List {
 				NONE       = 0,     // Nothing
 				IDENTIFIER = 1,     // f in f(2)
@@ -51,8 +53,8 @@ namespace CAS {
 				SEMICOLON = 21      // ;
 			} type;
 
-			Token_t(Type_List it, size_t iloc = static_cast<size_t>(-1))
-			    : data_loc(iloc), type(it) {}
+			Token_t(Type_List it, size_t iloc, size_t ln, size_t cn)
+			    : data_loc(iloc), line_num(ln), char_num(cn), type(it) {}
 		};
 
 		struct Token_List_t {
@@ -76,7 +78,7 @@ namespace CAS {
 		// IR (simpler) -> Reserecter -> Text
 		//
 		// clang-format off
-		Token_List_t            tokenize (const std::string&);
+		Token_List_t            tokenize (const std::string&, size_t line_num, size_t char_num);
 		AST_Head_Node_t         parse    (const Token_List_t&);
 		std::vector<IR_Token_t> code_gen (const AST_Head_Node_t&);
 		void                    optimize (std::vector<IR_Token_t>&);
@@ -91,16 +93,20 @@ namespace CAS {
 
 		  public:
 			// Evaluate functions that a handler can call
-			void eval_calculate(const std::string&);
-			void eval_simplify(const std::string&);
-			void eval_solve(const std::string&, std::vector<std::string>&);
-			void eval_substitute(const std::string&);
-			void eval_interpolate(const std::string&, Interpolation_t);
-			void eval_root(const std::string&);
-			void eval_limit(const std::string&);
-			void eval_differentiate(const std::string&, Differentiation_t&);
-			void eval_integrate(const std::string&);
-			void eval_integrate_definite(const std::string&, Definite_Integration_t&);
+			void eval_calculate(const std::string&, size_t line_num, size_t char_num);
+			void eval_simplify(const std::string&, size_t line_num, size_t char_num);
+			void eval_solve(const std::string&, std::vector<std::string>&, size_t line_num,
+			                size_t char_num);
+			void eval_substitute(const std::string&, size_t line_num, size_t char_num);
+			void eval_interpolate(const std::string&, Interpolation_t, size_t line_num,
+			                      size_t char_num);
+			void eval_root(const std::string&, size_t line_num, size_t char_num);
+			void eval_limit(const std::string&, size_t line_num, size_t char_num);
+			void eval_differentiate(const std::string&, Differentiation_t&, size_t line_num,
+			                        size_t char_num);
+			void eval_integrate(const std::string&, size_t line_num, size_t char_num);
+			void eval_integrate_definite(const std::string&, Definite_Integration_t&,
+			                             size_t line_num, size_t char_num);
 
 			void clear_all_state();
 		};
