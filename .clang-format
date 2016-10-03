@@ -1,6 +1,5 @@
 ---
 Language: Cpp
-BasedOnStyle: LLVM
 UseTab: ForIndentation
 TabWidth: 4
 IndentWidth: 4
@@ -19,6 +18,7 @@ AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: true
 AlwaysBreakBeforeMultilineStrings: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 IndentCaseLabels: true
 NamespaceIndentation: All
 Standard: Cpp11

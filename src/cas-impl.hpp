@@ -22,9 +22,45 @@ namespace CAS {
 			std::string end_num;
 		};
 
+		struct Token_t {
+			size_t data_loc;
+			enum Type_List {
+				NONE       = 0,     // Nothing
+				IDENTIFIER = 1,     // f in f(2)
+				LITERAL    = 2,     // 2 in f(2)
+				                    //
+				LEFT_PAREN    = 3,  // (
+				RIGHT_PAREN   = 4,  // )
+				LEFT_BRACKET  = 5,  // [
+				RIGHT_BRACKET = 6,  // ]
+				LEFT_BRACE    = 7,  // {
+				RIGHT_BRACE   = 8,  // }
+				LEFT_CARROT   = 9,  // <
+				RIGHT_CARROT  = 10, // >
+				EQUALS        = 11, // =
+				PLUS          = 12, // +
+				MINUS         = 13, // -
+				STAR          = 14, // *
+				SLASH         = 15, // /
+				CARROT        = 16, // ^
+				PIPE          = 17, // |
+				PERCENTAGE    = 18, // %
+				TILDE         = 19, // ~
+				BANG          = 20, // !
+				                    //
+				SEMICOLON = 21      // ;
+			} type;
+
+			Token_t(Type_List it, size_t iloc = -1) : data_loc(iloc), type(it) {}
+		};
+
+		struct Token_List_t {
+			std::vector<Token_t> tokens;
+			std::vector<std::string> data;
+		};
+
 		// Dummy structs to represent future concepts
 		struct Variable_t {};
-		struct Token_t {};
 		struct AST_Head_Node_t {};
 		struct IR_Token_t {};
 
@@ -39,12 +75,13 @@ namespace CAS {
 		// IR (simpler) -> Reserecter -> Text
 		//
 		// clang-format off
-		Token_t                 tokenize (const char*);
-		AST_Head_Node_t            parse (const std::vector<Token_t>&);
+		Token_List_t            tokenize (const std::string&);
+		AST_Head_Node_t         parse    (const Token_List_t&);
 		std::vector<IR_Token_t> code_gen (const AST_Head_Node_t&);
 		void                    optimize (std::vector<IR_Token_t>&);
 		std::string             reserect (const std::vector<IR_Token_t>&);
 		// clang-format on
+		void print_tokens(const Token_List_t&);
 
 		// Implimentation API
 		class interpreter_impl {
@@ -53,16 +90,16 @@ namespace CAS {
 
 		  public:
 			// Evaluate functions that a handler can call
-			void eval_calculate(const char*);
-			void eval_simplify(const char*);
-			void eval_solve(const char*, std::vector<std::string>&);
-			void eval_substitute(const char*);
-			void eval_interpolate(const char*, Interpolation_t);
-			void eval_root(const char*);
-			void eval_limit(const char*);
-			void eval_differentiate(const char*, Differentiation_t&);
-			void eval_integrate(const char*);
-			void eval_integrate_definite(const char*, Definite_Integration_t&);
+			void eval_calculate(const std::string&);
+			void eval_simplify(const std::string&);
+			void eval_solve(const std::string&, std::vector<std::string>&);
+			void eval_substitute(const std::string&);
+			void eval_interpolate(const std::string&, Interpolation_t);
+			void eval_root(const std::string&);
+			void eval_limit(const std::string&);
+			void eval_differentiate(const std::string&, Differentiation_t&);
+			void eval_integrate(const std::string&);
+			void eval_integrate_definite(const std::string&, Definite_Integration_t&);
 
 			void clear_all_state();
 		};

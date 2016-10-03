@@ -31,10 +31,11 @@ namespace CAS {
 		template <class... Args>
 		constexpr inline size_t char_is_in(char cmp, Args... a);
 
-		constexpr inline bool is_whitespace(char cmp); // Tells if cmp is whitespace
-		constexpr inline bool is_number(char cmp);     // Tells if cmp is number
-		constexpr inline bool is_numerical(char cmp);  // Tells if cmp is a number or a '-' or '.'
-		constexpr inline bool is_letter(char cmp);     // Tells if cmp is a regular letter
+		constexpr inline bool is_whitespace(char cmp); // if cmp is whitespace
+		constexpr inline bool is_number(char cmp);     // if cmp is number
+		constexpr inline bool is_numerical(char cmp);  // if cmp is a number or a '-', '+', or '.'
+		constexpr inline bool is_letter(char cmp);     // if cmp is a regular letter
+		constexpr inline bool is_unprefixed_numerical(char cmp); // if cmp is a number or '.'.
 
 		// Takes a container, an index into the container, and a unary functor. It will
 		// automatically iterate the index until the functor decides that the current location isn't

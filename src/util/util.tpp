@@ -41,11 +41,15 @@ namespace CAS {
 		}
 
 		constexpr inline bool is_numerical(char cmp) {
-			return is_number(cmp) || char_is_in(cmp, '.', '-', '+');
+			return is_number(cmp) || char_is_in(cmp, '.', '-');
 		}
 
 		constexpr inline bool is_letter(char cmp) {
 			return (('A' <= cmp) && (cmp <= 'Z')) || (('a' <= cmp) && (cmp <= 'z'));
+		}
+
+		constexpr inline bool is_unprefixed_numerical(char cmp) {
+			return is_number(cmp) || cmp == '.';
 		}
 
 		// Takes a container, an index into the container, and a unary functor to automatically

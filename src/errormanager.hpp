@@ -38,9 +38,8 @@ namespace CAS {
 		size_t count_errors(const CAS::Error_t);
 
 	  private:
-
-		  //object holding the total number of errors encountered
-		  size_t total_errors{0};
+		// object holding the total number of errors encountered
+		size_t total_errors{0};
 
 		// Vector holding the Errors for the current user input
 		std::vector<CAS::Error> error_list;

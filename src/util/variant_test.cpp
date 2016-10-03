@@ -1,5 +1,5 @@
-#include "util/type_utils.hpp"
 #include "util/variant.hpp"
+#include "util/type_utils.hpp"
 
 using namespace CAS::_meta;
 
